@@ -1,0 +1,119 @@
+select * from orders;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------
+
+SELECT 
+    COUNT(order_id) AS Total_orders
+FROM
+    orders;
+
+-- --------------------------------------------------------------------------------------------------------------------------
+
+SELECT 
+    ROUND(SUM(O.quantity * P.price), 2) AS total
+FROM
+    orders_details O
+        JOIN
+    pizzas P ON P.pizza_id = O.pizza_id;
+
+-- --------------------------------------------------------------------------------------------------------------------------------------
+SELECT 
+    PT.name, P.price
+FROM
+    pizza_types PT
+        JOIN
+    pizzas P ON PT.pizza_type_id = P.pizza_type_id
+    order by P.price desc limit 1;
+
+-- ---------------------------------------------------------------------------------------------
+SELECT 
+    P.size, COUNT(O.order_details_id) AS Total
+FROM
+    pizzas P
+        JOIN
+    orders_details O ON P.pizza_id = O.pizza_id
+GROUP BY size
+ORDER BY total DESC;
+
+ -- -------------------------------------------------------------------------------------------
+ 
+ -- self 
+SELECT 
+    PT.name, PT.category, P.size, P.Price
+FROM
+    pizza_types PT
+        LEFT JOIN
+    pizzas P ON PT.pizza_type_id = P.pizza_type_id;
+    
+    -- ----------------------------------------------------------------------------------------------
+    -- self
+    
+    SELECT 
+    PT.name, PT.category,PT.ingredients, P.size, P.Price
+FROM
+    pizza_types PT
+        right JOIN
+    pizzas P ON PT.pizza_type_id = P.pizza_type_id;
+    
+    -- --------------------------------------------------------------------------------------------------------------------
+    -- self
+    SELECT 
+    pizza_type_id, MAX(price) AS Max_Price
+FROM
+    pizzas
+GROUP BY pizza_type_id
+ORDER BY pizza_type_id
+LIMIT 3;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------
+-- self
+
+
+SELECT 
+    name, category
+FROM
+    pizza_types
+ORDER BY name ASC;
+
+
+
+SELECT 
+    name, category
+FROM
+    pizza_types
+ORDER BY name DESC;
+
+-- --------------------------------------------------------------------------------------------------------------------------------------  
+
+SELECT 
+    *
+FROM
+    pizza_types
+WHERE
+    name LIKE '%Chicken%';
+
+
+SELECT 
+    *
+FROM
+    pizza_types
+WHERE
+    name LIKE '%Veg%';  
+ -- --------------------------------------------------------------------------------------------------------------------------
+ 
+ alter table orders add order_day int;
+ 
+ alter table orders modify order_day date;
+ 
+ alter table orders change order_day  weekdays date;
+ 
+ alter table orders drop weekdays;
+ 
+ -- DELETE , RENAME 
+  -- ----------------------------------------------------------------------------------------------------------------------------
+
+ UPDATE pizza_types 
+SET 
+    name = 'The Medium Meat Pizza'
+WHERE
+    pizza_type_id = 'big_meat';
